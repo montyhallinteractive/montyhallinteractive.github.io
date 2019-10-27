@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The Monty Hall Problem</title>
+  
+  <meta name="description" content="An interactive look at the classic logic puzzle">
+  <style type="text/css">
+    
+    h4, h5{
+      /* background-color: aqua; */
+      padding: 0px;
+      margin: 0 auto;
+    }
+
+    .collage-container{
+        width: 60%;
+        margin: 0 auto;
+        margin-bottom: 0px;
+        display: block;
+    }
+    .collage{
+        width: 90%;
+        margin-left: 5%
+    }
+    .headline-container {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 0px;
+        margin-left: 10%;
+        font-size: 180%;
+        display: inline-block;
+        padding-top: 0px;
+    }
+
+    .headline{
+      vertical-align: top;
+      padding: 0px;
+      margin: 0 auto;
+      margin-bottom: 0%;
+    }
+
+    .interactive_text_area,
+    #simulation,
+    .analysis,
+    #about_container {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .long_dialog,
+    p, ul, ol {
+      font-size: 150%;
+    }
+
+    .tab-p{
+      margin-left: 40px;
+    }
+
+    blockquote{
+      font-size: 140%;
+      font-style: italic;
+    }
+
+    .switch_button_container{
+        width: 60%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    
+    .switch_button{
+        width: 35%;
+        height: 55px;
+        margin: 0 auto;
+        margin-top: 2%;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        font-size: 120%;
+        visibility: hidden;
+    }
+
+    .open_button{
+        width: 35%;
+        height: 55px;
+        margin: 0 auto;
+        margin-top: 2%;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        font-size: 120%;
+        display: none;
+    }
+
+    .row_of_doors {
+        width: 80%;
+        background: #f0e68c;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .row_of_doors_sim {
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 2%;
+        align-content: center;
+        display: flex;
+        padding-top: 0px;
+    }
+
+    .row_of_doors_sim#variable_container {
+        width: 100%;
+    }
+
+    #actual-show{
+      width: 80%;
+      display: inline;
+      margin: 0 auto;
+    }
+
+    .text_commands {
+        font-size: 220%;
+        margin-top: 0px;
+        margin: 0 auto;
+        width: 80%;
+        text-align: center;
+        display: block;
+    }
+    
+    .switch-figure,
+    .stay-figure{
+        margin-top: 20%;
+        width: 20%;
+        display: inline-block;
+        
+    }
+
+    /* simulation below */
+    .door,
+    .sim-door{
+        width: 30%;
+        display: inline;
+    }
+    .tiny-door{
+      width: 4%;
+      display: inline;
+    }
+
+    .start_simulation{
+        width: 60%;
+        height: 55px;
+        margin-top: 0px;
+        margin-left: 20%;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        font-size: 120%;
+        display: inline;
+    }
+
+    .sim_doors_and_button{
+      display: block;
+      width: 60%;
+      margin-top: 0%;
+      padding-top: 0px;
+    }
+
+    .sim_doors_and_button#first-doors{
+      margin-left: 20%;
+    }
+
+    .small_doors{
+      margin-top: 5%;
+      display: flex;
+      justify-content: space-evenly;
+    }
+    
+    .variable_doors{
+      margin-top: 2%;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+    }
+
+    input{
+      width: 9%;
+      padding-left: 10px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      font-size: 70%;
+    }
+
+    ul{
+      display: inline;
+      /* width: 40%; */
+    }
+
+    #table-container{
+      display: flex;
+      margin: 0 auto;
+    }
+    
+    #table-button-container{
+      display: block;
+      width: 30%;
+      align-items: left;
+      justify-items: stretch;
+      margin-top: 10%;
+      
+    }
+
+    .table-button{
+        /* width: 35%; */
+        height: 55px;
+        margin: 0 auto;
+        margin-top: 2%;
+        fill: gainsboro;
+        border-radius: 5px;
+        background-color: rgb(48, 48, 48);
+        color: white;
+        border: none;
+        font-size: 120%;
+        display: block; 
+        
+    }
+
+    .table {
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    .chart {
+      width: 80%;
+      display: block;
+      margin-left: 5%
+    }
+
+    path { 
+      stroke: steelblue;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    #switch-line {
+      stroke: slateblue;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    #no-switch-line {
+      stroke: orange;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: grey;
+      stroke-width: 2;
+      shape-rendering: crispEdges;
+
+    }
+    
+    .divider{
+      display: inline;
+      width: 5%;
+      height: 20px;
+    }
+
+    .svg-container {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding-bottom: 40%;
+      vertical-align: top;
+      overflow: hidden;
+    }
+    .svg-content {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    span {
+      font-weight: bold;
+    }
+    
+    .attribution{
+      font-size: 80%;
+    }
+
+</style>
+</head>
+
+<body>
+  <div>
+    <div id="collage-container">
+        <img id="collage" src="images/monty-hall-collage.png" alt="Collage of host Monty Hall" class="collage"/>
+    </div>
+    <div class="headline-container">
+      <h1 class="headline">The Monty Hall Problem</h1>
+      <h4>An interactive look at the classic logic puzzle</h4>
+      
+    </div>
+    <div name="interactive_text_area" class="interactive_text_area">
+      <p>
+        Welcome to the show, contestant!  
+        You have the chance to win a new car - but only if you can guess which door it's behind.
+      </p>
+        <!-- <p name="long_dialog" class="long_dialog">
+            The late Monty Hall hosted several gameshows throughout his long career, most notably Let's Make a Deal. 
+            In one game, he presented contestants with three doors. One of them hid a car while the other two had goats behind them.
+            Part way through the game, Hall would reveal some information and offer the contestant a chance to change their guess.
+            Let's see how it works.
+        </p> -->
+    </div>
+    <div name="short_dialog" class="text_commands_container">
+        <h4 id="text_commands" class="text_commands">pick a door</h4>
+    </div>
+    <div id="switch_button_container" class="switch_button_container">
+        <button id="yes_switch" class="switch_button">Yes</button>
+        <button id="no_switch" class="switch_button">No</button>
+        <button id="open_button" class="open_button">Open all the doors!</button>
+        <button id="play_again" class="open_button">Play again?</button>
+    </div>
+    <div class="row_of_doors_sim">
+        <div id="first-doors" class="sim_doors_and_button">
+            <div class="small_doors">
+                <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="door"/>
+                <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="door"/>
+                <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="door"/>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="about_container">
+        <h2>About the Game</h2>
+        
+        <p>
+          The late Monty Hall began hosting gameshows in the 1960s, and inspired this logic puzzle, 
+          which was first posed (and solved) by Steve Selvin in 1975. You may have already seen a 
+          video or an article about the Monty Hall Problem as it's a relatively famous problem.
+        </p>
+
+    </div> -->
+    <div id="simulation_container">
+        <div id="simulation">
+            <h2>Introduction</h2>
+            <p class="long_dialog">
+              You've just experienced the Monty Hall problem - is it better to switch your guess after one door 
+              has been opened? Does that decision matter at all? Play a few times to get a good sense of 
+              the game.
+            </p>
+            <p>
+              This logic puzzle has gained some notoriety in pop culture; you may have seen it in
+              <a href="https://www.youtube.com/watch?v=cXqDIFUB7YU">this MIT classroom scene</a> 
+              from the 2008 MIT-students-vs-blackjack movie 21, or maybe
+              <a href="https://www.youtube.com/watch?v=QGxyIQzLeUc"> this Brooklyn Nine-Nine montage</a>
+              from Season 4, Episode 8. YouTube has several great explainers, like 
+              <a href="https://www.youtube.com/watch?v=4Lb-6rxZxx0">this one</a> from Numberphile or
+              <a href="https://www.youtube.com/watch?v=TVq2ivVpZgQ">this one</a> from Vsauce. 
+
+              Although this problem has definitely been thoroughly covered, consider this 
+              excerpt from the Monty Hall Problem
+              <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">wikipedia page</a>:
+              <blockquote>
+                  In her book The Power of Logical Thinking, vos Savant (1996, p. 15) quotes cognitive 
+                  psychologist Massimo Piattelli-Palmarini as saying that "no other statistical puzzle 
+                  comes so close to fooling all the people all the time", and "even Nobel physicists 
+                  systematically give the wrong answer, and that they insist on it, and they are ready 
+                  to berate in print those who propose the right answer".
+              </blockquote>
+              <p>
+              If you've never explored the Monty Hall problem, you're in for a treat.
+              Hopefully once you've interacted with this page, this potentially confounding puzzle will
+              make sense!
+              </p>
+            <h2>Discussion</h2>
+              <p>
+                It feels like switching to another unknown door is pointless, since it's still unknonwn. If you decide
+                to switch and your original guess was correct, it feels like you had it and you gave it away. (This
+                is called <a href="https://en.wikipedia.org/wiki/Endowment_effect">the Endowment effect</a>; overvaluing the 
+                already 'owned' or chosen) Perhaps it's more difficult to handle the consequences of direct action
+                (like switching and losing) as opposed to inaction (like staying and losing).
+              </p>
+              <p>
+                Since the first choice was arbitrarily made as a true guess, why would switching be any better?
+                A <a href='https://journals.sagepub.com/doi/10.1177/0146167295217006'>1995 research article</a>
+                by Thad A. Brown found that only 13% of his 228 participants chose to switch their guess when
+                given the opportunity.
+              </p>
+              <p>
+                Once one door is opened and now there are two unopened doors remaining, it feels like it's a 50-50
+                chance - that's what it would be if you started the game at that phase, right? The problem with this 
+                approach is that it discards some valuable information concerning the original probability of the 
+                selection. When we made the selection the situation was different - and we can use this information
+                to our advantage.
+              </p>
+              <img src="images/actual-show.png" id="actual-show"/>
+              <figcaption>On the set of <i>Let's Make a Deal</i> featuring three doors</figcaption>
+              <p id="next-to-image">
+                The name comes from game show host Monty Hall, who hosted various television gameshows in the 
+                1960s and 70s, most notably <i>Let's Make a Deal</i> (which now has a Wayne Brady reboot).
+                There are <a href="https://www.youtube.com/watch?v=hQpbsD5IueA&feature=youtu.be&t=83">full episodes</a>
+                available on YouTube, which contain the games that inspired this problem.
+              </p>
+            </p>
+            <h2>Simulation</h2>
+            <p>
+              Let's look at the problem over a longer time-period. We'll use two contestants that 
+              start with the same three doors and the same initial guess. However, the purple contestant
+              will switch every game and the orange contestant will stay with the original choice. 
+              Over a few hundred games, maybe we'll be able to see a trend emerging on the chart below.
+
+              There will be 200 games simulated, but the first five will go slowly so the contestants'
+              choices can be seen easily.
+            </p>
+            <form class="long_dialog">
+                Guess the win percentage of a the <span>purple contestant that switches every time</span> :
+                <input id="no_switch_guess" type="number" name="quantity" min="0" max="100" value="0">
+            </form>
+          </p>
+        </div>
+        <div id="game_simulator">
+            <div class="row_of_doors_sim">
+              <img id="switch_character" src="images/switch_figure.png" alt="Purple Switch Character" class="switch-figure"/>
+              <div class="sim_doors_and_button">
+                  <button id="start_simulation" class="start_simulation">Start Simulation</button>
+                  <div class="small_doors">
+                      <img id="one" src="images/door_one_closed.png" alt="Door One: closed" class="sim-door"/>
+                      <img id="two" src="images/door_two_closed.png" alt="Door Two: closed" class="sim-door"/>
+                      <img id="three" src="images/door_three_closed.png" alt="Door Three: closed" class="sim-door"/>
+                  </div>
+              </div>
+            <img id="stay-character" src="images/stay_figure.png" alt="Orange Stay Character" class="stay-figure"/>
+            </div>
+            <div id="chart" class="svg-container"></div>
+        </div>
+    </div>
+    <div class="analysis">
+        <h2>Analysis</h2>
+        <p>
+          As you can see over many trials, there is a long-term advantage to the contestant that
+          chooses to switch every game...but why? Let's looks a little closer.
+        </p>
+        <p>
+          When the original guess is correct, the host can choose either door to open and reveal a goat.
+          But when the original guess is incorrect, that host must be more selective - he can't open the 
+          winning door. So that leaves just one other door to open. This act of selection by the host is 
+          part of the key to understanding why switching leads to more wins - it means if the original
+          guess was wrong, the winning door will always be available to be switched to.
+        </p>
+        <p>
+          Consider the following case:
+        </p>
+        
+    </div>
+    <div class="row_of_doors_sim">
+        <div id="first-doors" class="sim_doors_and_button">
+            <div class="small_doors">
+                <img id="one" src="images/door_one_closed_transparent_car.png" alt="Door One: closed with car" class="sim-door"/>
+                <img id="two" src="images/door_two_closed_transparent_goat_selected.png" alt="Door Two: selected with goat" class="sim-door"/>
+                <img id="three" src="images/door_three_closed_transparent_goat.png" alt="Door Three: closed with goat" class="sim-door"/>
+            </div>
+        </div>
+    </div>
+    <div class='analysis'>
+      <p>
+        The contestant has selected door two, which we know contains a goat.
+        Since the host can't open the selected door (yet) and also can't reveal the car
+        behind door one (since that would ruin the game), that means that door three will
+        be opened to reveal the goat. In this game, the contestant can only win by switching.
+      </p>
+      <p>
+        Now imagine the contestant chose door three instead of door two -  what changes?
+      </p>
+      <p>
+        The host will once again be forced to reveal the other goat (this time behind door two),
+        and the switching contestant will win. This uncovers a critical insight - <span>any contestant
+        that guesses wrong initially will win by switching</span>. Now we can translate that sentence
+        into numbers since we know the original probability: with one car and two goats, there's a 
+        two-out-of-three chance the original guess was wrong.
+      </p>
+      <p>
+        After the selection is made, let's consider the possible outcomes:
+      </p>
+
+        <ol id="outcomes-list">
+          <li>Switch and win</li>
+          <li>Switch and lose</li>
+          <li>Stay and win</li>
+          <li>Stay and lose</li>
+        </ol>
+        <p>
+          And if we put them in a table, it looks like this. By clicking <i>Show Percentages</i>
+          the text will be translated to the actual chances of that occurring in the game.
+        </p>
+        <div id="table-container">
+          <div id="table-button-container">
+              <button id="show-text-button" class="table-button">Show Text</button>
+              <button id="show-percentages-button" class="table-button">Show Percentages</button>
+          </div>
+            <img id="outcomes-table" src="images/table_with_text.png" alt="Data table with text" class="table"/>
+        </div>
+        <p>
+            The horizontal "win" row shows the chances we get from switching or staying.
+            This table confirms what our simulation already revealed - switching your guess
+            will win two-thirds of the time!
+        </p>
+        <p class="tab-p">
+            Switch Win % = 1 - (the chance the original guess was correct)<br>
+            Switch Win % = 1 - (1/3) = <b>2/3</b><br>
+        </p>
+        <p>
+            The formula is a little bit more complicated if we want to cover the general case, 
+            but for the traditional assumptions of the Monty Hall problem, this simplified version works great. 
+            The full formula looks like this: <br>
+          <p class="tab-p">
+            Switch Win % = (GuessWrong)(SwitchRighGuessWrong)+(GuessRight)(SwitchRightGuessRight)
+          </p>
+          <p>
+            Since there is only one door remaining, SwitchRightGuessWrong is 1 (meaning if we guess
+            wrong initially, the switch always win the car) and SwitchRightGuessRight is 0
+            (meaning if we guess right initially, the switch will never win the car).
+            If we plug that in and simplify it, we get the following:
+          </p>
+          <p class="tab-p">
+            Switch Win % = (GuessIsWrong)(1) + (GuessIsRight)(0)<br>
+            Switch Win % = (GuessIsWrong) = <b>1 - GuessIsRight</b>
+          </p>
+        </p>
+        <p>
+          The full formula helps when exploring more complicated iterations of the problem, for example
+          with multiple cars or multiple doors available to switch to.
+        </p>
+    </div>
+    <div class="analysis">
+      <h2>Exploration</h2>
+      <p>
+        We've explained one frame of reference for thinking about the Monty Hall problem,
+        but looking at it from another angle may provide more clarity. By exaggerating the 
+        problem dramatically, we can see the same principles in a clearer light.
+      </p>
+      <p>
+        Let's play again with one car, but instead of three doors, now there are 100. 
+      </p>
+      <div name="short_dialog" class="text_commands_container">
+          <h4 id="100_text_commands" class="text_commands">pick a door</h4>
+      </div>
+      <div id="switch_button_container" class="switch_button_container">
+          <button id="yes_switch_variable" class="switch_button">Yes</button>
+          <button id="no_switch_variable" class="switch_button">No</button>
+          <button id="open_button_variable" class="open_button">Open My Door</button>
+          <button id="play_again_variable" class="open_button">Play again?</button>
+      </div>
+      <div class="row_of_doors_sim" id="variable_container">
+        <div class= "variable_doors" id="variable_doors">
+        </div>
+      </div>
+      <p>
+        This example is admittedly ridiculous - but in this case switching is an easier choice
+        to make because there is so much new informaiton. It's key that there is 
+        <span>only one door remaining</span> available to select through switching.
+        Since there are only two options on the table, we can easily calculate the winning chances:
+      </p>
+      <p class = "tab-p">
+        Switch Win % = 1 - (the chance the original guess was correct)<br>
+        Switch Win % = 1 - (1/100) = <b>99/100</b><br>
+      </p>
+      <p>
+        This means there's a 99% chance you'll win if you switch - it's just easier to see the advantage
+        in this example because there are so many doors. 
+      </p>
+      <h2>Conclusion</h2>
+      <p>
+        The results are in and the math shows that switching maximizes a contestant's winning chances.
+        It still takes a bit of thought to wrap your head around this one - feel free to play around 
+        with the tools above to sharpen your understanding. There are still things to explore:
+        What if there is more than one car? Or more than one door available to switch to? How will
+        this affect our chances? See if you can puzzle it out for yourself.
+      </p>
+      <br>
+      <br>
+      <br>
+      <p class = 'attribution'><i>Written, designed, and built by Travis Shafer</i></p>
+      <br>
+    </div>
+</div>
+<!-- load the d3.js library -->	
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="scripts.js"></script>
+</body>
+</html>
